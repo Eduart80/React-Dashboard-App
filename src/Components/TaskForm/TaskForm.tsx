@@ -4,7 +4,7 @@ import type {Task} from '../../types/index'
 type TaskFormProps = {
   onAddTask: (task: Task) => void;
 }
-
+// New entry
 export const TaskForm: React.FC<TaskFormProps> = ({ onAddTask }) => {
     const [newTitle, setNewTitle]=useState('')
     const [newDescription, setDescription]=useState('')
@@ -14,12 +14,12 @@ export const TaskForm: React.FC<TaskFormProps> = ({ onAddTask }) => {
 
     const handleSubmit = (e: React.FormEvent)=>{
         e.preventDefault()
-        const task = {
-            id:newTitle,
+        const task: Task = {
+            id: newTitle,
             title: newTitle,
             description: newDescription,
-            status:newStatus,
-            priority:newPriority,
+            status: newStatus as Task['status'],
+            priority: newPriority as Task['priority'],
             dueDate: newdueDate
         }
         const tasks= JSON.parse(localStorage.getItem('tasks')||'[]')
@@ -38,15 +38,15 @@ export const TaskForm: React.FC<TaskFormProps> = ({ onAddTask }) => {
     <form onSubmit={handleSubmit}>
         
         <input name='title' placeholder='Enter Title ' 
-            value={title} 
+            value={newTitle} 
             onChange={e => setNewTitle(e.target.value)}
             />
         <input name='description' placeholder='Descriptions...'
-            value={description}
+            value={newDescription}
             onChange={e => setDescription(e.target.value)}
             />
         <select name='status'  
-            value={status}         
+            value={newStatus}         
             className="form-control"
             style={{ backgroundColor: "#232131ff", color: "#fff" }}
             onChange={e => setNewStatus(e.target.value)}>
@@ -56,7 +56,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ onAddTask }) => {
             <option value='completed'>Completed</option>
         </select>
         <select name='priority'
-         value={priority}         
+         value={newPriority}         
             className="form-control"
             style={{ backgroundColor: "#232131ff", color: "#fff" }}
             onChange={e => setNewPriority(e.target.value)}>
@@ -67,7 +67,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ onAddTask }) => {
         </select>
         <input type='date'
             name='dueDate'
-            value={dueDate}
+            value={newdueDate}
             onChange={e=>setNewDueDate(e.target.value)}
             />
         <button type='submit'>Save Task</button>
