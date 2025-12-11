@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { TaskForm } from '../TaskForm/TaskForm'
 import { TaskList } from '../TaskList/TaskList'
 import type { Task, TaskStatus  } from '../../types'
+import { TaskFilter } from '../TaskFilter/TaskFilter'
 
 type Props = {}
 
@@ -42,7 +43,6 @@ export default function Dashboard({}: Props) {
   }));
 };
 
-
 const filteredTasks = tasks.filter((task) => {
   const matchesStatus = !filters.status || task.status === filters.status;
   const matchesPriority = !filters.priority || task.priority === filters.priority;
@@ -60,25 +60,29 @@ const filteredTasks = tasks.filter((task) => {
   };
 
   return (
-    <div className='#' style={{ backgroundColor: '#242424', color: "#fff" }}>
+    <div className='flex justify-content-center ' style={{ backgroundColor: '#242424', color: "#fff", width:'100vw' }}>
         <h3 style={{ textAlign: 'center', margin:'10px 5px' }}>My List</h3>
         
-        <div>
+        <div className='d-flex justify-content-around' style={{marginLeft:'20px'}}>
           <span>Total tasks: {total}</span>
-          <span style={{marginLeft:'20px'}}>Completed: {Completed}</span>
+          <span>Completed: {Completed}</span>
         </div>
-        <TaskForm onAddTask={(task: Task) => {
-          const updatedTasks = [...tasks, task];
-          setTasks(updatedTasks);
-          localStorage.setItem('tasks', JSON.stringify(updatedTasks));
-        }} />
-        {/* <TaskList tasks={tasks} onDelete={handleDelete}/> */}
-        <div className='col-sm-12 col-md-12'>
-       <TaskList 
-        tasks={filteredTasks}
-        onStatusChange={handelStatus}
-        onDelete={handleDelete}
-       />
+        <div className='d-flex justify-content-around'>
+          <TaskForm onAddTask={(task: Task) => {
+            const updatedTasks = [...tasks, task];
+            setTasks(updatedTasks);
+            localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+          }} />
+        </div>
+        <div>
+         <TaskFilter onFilterChange={handleFilterChange}/>
+        </div>
+        <div >
+          <TaskList 
+            tasks={filteredTasks}
+            onStatusChange={handelStatus}
+            onDelete={handleDelete}
+          />
      </div>
     </div>
   )

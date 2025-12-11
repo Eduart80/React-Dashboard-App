@@ -21,8 +21,8 @@ export const TaskList: React.FC<TaskListProps> = ({
   };
 
   return (
-    <div className="container m-4">
-        <div className="col-md-10">
+    
+        <div style={{ width:'50%', margin:'40px auto', display:"block"}} >
           {tasks.map((object) => (
             <div
               key={object.id}
@@ -75,7 +75,7 @@ export const TaskList: React.FC<TaskListProps> = ({
             </div>
           ))}
         </div>
-      </div>
+      
    
   );
 };

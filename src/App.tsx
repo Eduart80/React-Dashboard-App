@@ -8,7 +8,7 @@ function App() {
 
 
   return (
-    <div className='#' style={{ backgroundColor: '#242424', color: "#fff" }}>
+    <div style={{ backgroundColor: '#242424', color: "#fff" }}>
       <Dashboard />
     </div>
   )
