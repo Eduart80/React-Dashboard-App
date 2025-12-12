@@ -9,23 +9,25 @@ type Props = {}
 export default function Dashboard({}: Props) {
   
     const [filters, setFilters ]=useState<{status?: TaskStatus; priority?: 'low' | 'medium' | 'high'}>({})
-   
-  const [tasks, setTasks] = useState<Task[]>([
-    {
-      id: '1',
-      title: 'Task 1',
-      description: 'Description for Task 1',
-      status: 'pending',
-      priority: 'medium',
-      dueDate: '2025-12-10',
-    }
-  ])
+    const [editTask, setEditTask]=useState<Task | null>(null)
+  const [tasks, setTasks] = useState<Task[]>([])
 
   useEffect(() => {
     const stored = localStorage.getItem('tasks');
     if (stored) setTasks(JSON.parse(stored));
   }, []);
 
+  //edit
+  const handleEditTask = (task: Task)=>{
+    setEditTask(task)
+  }
+  // save Edit
+  const handleSaveEditTask = (updtTask : Task) =>{
+    const updatedTasks = tasks.map(t => t.id === updtTask.id ? updtTask : t)
+    setTasks(updatedTasks)
+    localStorage.setItem('tasks', JSON.stringify(updatedTasks))
+    setEditTask(null)
+  }
   
   // handle status
   const handelStatus = (taskId:string, newStatus: TaskStatus)=>{
@@ -42,7 +44,7 @@ export default function Dashboard({}: Props) {
       ...newFilters,
   }));
 };
-
+// filter by status or priority
 const filteredTasks = tasks.filter((task) => {
   const matchesStatus = !filters.status || task.status === filters.status;
   const matchesPriority = !filters.priority || task.priority === filters.priority;
@@ -68,7 +70,10 @@ const filteredTasks = tasks.filter((task) => {
           <span>Completed: {Completed}</span>
         </div>
         <div className='d-flex justify-content-around'>
-          <TaskForm onAddTask={(task: Task) => {
+          <TaskForm 
+          task={editTask}
+          // onSaveTask={handleSaveEditTask}
+          onAddTask={(task: Task) => {
             const updatedTasks = [...tasks, task];
             setTasks(updatedTasks);
             localStorage.setItem('tasks', JSON.stringify(updatedTasks));
@@ -82,6 +87,10 @@ const filteredTasks = tasks.filter((task) => {
             tasks={filteredTasks}
             onStatusChange={handelStatus}
             onDelete={handleDelete}
+            onEdit={(taskId: string) => {
+              const task = tasks.find(t => t.id === taskId) || null;
+              setEditTask(task);
+            }}
           />
      </div>
     </div>

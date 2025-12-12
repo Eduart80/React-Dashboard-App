@@ -5,6 +5,7 @@ export const TaskList: React.FC<TaskListProps> = ({
   tasks,
   onStatusChange,
   onDelete,
+  onEdit
 }) => {
   const statuses: TaskStatus[] = ["pending", "in-progress", "completed"];
   const getPriorityColor = (prop: string) => {
@@ -71,6 +72,11 @@ export const TaskList: React.FC<TaskListProps> = ({
                 >
                   Delete
                 </button>
+                <button 
+                  type="button"
+                  className="btn btn-primary m-2"
+                  onClick={()=> onEdit(object.id)}
+                >Edit</button>
               </div>
             </div>
           ))}
