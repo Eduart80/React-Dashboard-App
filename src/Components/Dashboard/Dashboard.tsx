@@ -54,11 +54,12 @@ const filteredTasks = tasks.filter((task) => {
 
   const total = tasks.length
   const Completed = tasks.filter(t => t.status === 'completed').length
+
   // delete a task by id
   const handleDelete = (taskId: string) => {
     const updatedTasks = tasks.filter(task => task.id !== taskId);
     setTasks(updatedTasks);
-    localStorage.removeItem('tasks');
+    localStorage.setItem('tasks', JSON.stringify(updatedTasks));
   };
 
   return (
@@ -71,13 +72,14 @@ const filteredTasks = tasks.filter((task) => {
         </div>
         <div className='d-flex justify-content-around'>
           <TaskForm 
-          task={editTask}
-          // onSaveTask={handleSaveEditTask}
-          onAddTask={(task: Task) => {
-            const updatedTasks = [...tasks, task];
-            setTasks(updatedTasks);
-            localStorage.setItem('tasks', JSON.stringify(updatedTasks));
-          }} />
+            task={editTask}
+            onSaveTask={handleSaveEditTask}
+            onAddTask={(task: Task) => {
+              const updatedTasks = [...tasks, task];
+              setTasks(updatedTasks);
+              localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+            }}
+          />
         </div>
         <div>
          <TaskFilter onFilterChange={handleFilterChange}/>

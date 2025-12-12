@@ -26,7 +26,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ onAddTask, onSaveTask, task 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newTask: Task = {
-      id: newTitle,
+      id: task ? task.id : Date.now().toString(),
       title: newTitle,
       description: newDescription,
       status: newStatus as Task["status"],
@@ -35,7 +35,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ onAddTask, onSaveTask, task 
     };
     const storageTasks = JSON.parse(localStorage.getItem("tasks") || "[]")
     storageTasks.push(newTask)
-    localStorage.setItem("tasks", JSON.stringify(newTask))
+    localStorage.setItem("tasks", JSON.stringify(storageTasks))
 
     if(task && onSaveTask){
       onSaveTask(newTask)
